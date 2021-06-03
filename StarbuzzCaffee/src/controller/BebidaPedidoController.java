@@ -44,18 +44,29 @@ import model.Pedido;
  */
 public class BebidaPedidoController implements Initializable {
 
+    //Tabla Bebidas
     @FXML
     private TableView<BebidaCant> tblBebidas;
-    @FXML
-    private MenuButton btnBebida;
-    @FXML
-    private TableView<Decorador> tblExtras;
     @FXML
     private TableColumn<BebidaCant, String> colnom;
     @FXML
     private TableColumn<BebidaCant, String> colPrecio;
     @FXML
     private TableColumn<?, ?> colCant;
+    
+    //Tablas Extras
+    @FXML
+    private TableView<Decorador> tblExtras;
+    @FXML
+    private TableColumn<?, ?> colExtraNom;
+    @FXML
+    private TableColumn<?, ?> colExtraPrecio;
+    @FXML
+    private TableColumn<?, ?> colCheck;
+    
+    //Seleccion Bebida Base
+    @FXML
+    private MenuButton btnBebida;
     @FXML
     private MenuItem btnb1;
     @FXML
@@ -64,32 +75,29 @@ public class BebidaPedidoController implements Initializable {
     private MenuItem btnb3;
     @FXML
     private MenuItem btnb4;
-    @FXML
-    private TableColumn<?, ?> colExtraNom;
-    @FXML
-    private TableColumn<?, ?> colExtraPrecio;
-    @FXML
-    private TableColumn<?, ?> colCheck;
+    
     @FXML
     private TextField txtCant;
-    @FXML
-    private Button btnElim;
+    
     @FXML
     private Button btnAnadir;
-    @FXML
-    private Button btnModif;
-    @FXML
-    private Button btnCancelarModif;
     @FXML
     private Button btnCancelarPedido;
     @FXML
     private Button btnRealizarModif;
     @FXML
+    private Button btnElim;
+    
+    @FXML
+    private Button btnModif;
+    @FXML
+    private Button btnCancelarModif;
+    @FXML
     private Button btnVerPedidos;
     @FXML
     private Button btnRealizarPedido;
      
-    
+    //Objetos de apoyo
     private ObservableList<Decorador> extras;
     private ObservableList<BebidaCant> bebidas;
     private Pedido pedido;
@@ -104,8 +112,6 @@ public class BebidaPedidoController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-        
         pedido = new Pedido("1");
         
         Decorador d1 = new Decorador("Milk",0.12);
@@ -136,171 +142,6 @@ public class BebidaPedidoController implements Initializable {
         this.btnRealizarModif.setVisible(false);
     }    
 
-    @FXML
-    private void eliminar(ActionEvent event) {
-        if(bebidaSelect != null)
-            bebidas.remove(bebidaSelect);
-        else{
-            Alert2.showAlert("Error","No order selected", Alert.AlertType.ERROR);
-        }
-    }
-
-    @FXML
-    private void bebida1(ActionEvent event) {
-        bebidaBase = new BebidaEspecifica(this.btnb1.getText(),1.99);
-        this.btnBebida.setText(bebidaBase.getNombre());
-    }
-
-    @FXML
-    private void bebida2(ActionEvent event) {
-        bebidaBase = new BebidaEspecifica(this.btnb2.getText(),2.99);
-        this.btnBebida.setText(bebidaBase.getNombre());
-    }
-
-    @FXML
-    private void bebida3(ActionEvent event) {
-        bebidaBase = new BebidaEspecifica(this.btnb3.getText(),3.99);
-        this.btnBebida.setText(bebidaBase.getNombre());
-    }
-
-    @FXML
-    private void bebida4(ActionEvent event) {
-        bebidaBase = new BebidaEspecifica(this.btnb1.getText(),1.99);
-        this.btnBebida.setText(bebidaBase.getNombre());
-    }
-    
-    @FXML
-    private void anadir(ActionEvent event) throws Exception {
-        try{
-            BebidaCant bebida = this.creaBebida();
-            bebidas.add(new BebidaCant(bebida.getBebida(),bebida.getCantidad()));
-            
-            this.limpiarVariables();  
-        }
-        catch(NumberFormatException e){//si se escribieron letras en el campo de cantidad de bebidas
-            Alert2.showAlert("Error","Incorrect format in quantity field", Alert.AlertType.ERROR);
-        }
-        catch(Exception e){//si el numero es menor o igual a 0, u otro error
-            Alert2.showAlert("Error",e.getMessage(), Alert.AlertType.ERROR);
-        }
-    }
-
-    @FXML
-    private void seleccionar(MouseEvent event) {
-        bebidaSelect = this.tblBebidas.getSelectionModel().getSelectedItem();
-    }
-
-    @FXML
-    private void modificar(ActionEvent event) {
-        if(bebidaSelect != null){//si selecciono una bebida de la tabla
-            
-            //se le da un valor ya que puede ser que no entre al if, lo que significario que no tiene extras
-            Bebida bebidaBaseAux = bebidaSelect.getBebida();
-            
-            //si la bebida seleccionada es un decorador(tiene extras)
-            if(bebidaSelect.getBebida() instanceof Decorador){
-                
-                //se realiza un castio para poder tener acceder a las funciones de Decorador
-                Decorador aux = (Decorador) bebidaSelect.getBebida();
-                
-                //ayudara a saber cuando la siguiente bebida del Decorador no es un Decorador y parar el ciclo
-                int flag = 1;
-                
-                //ciclo para seleccionar los extras de la bebida
-                while(flag==1){
-                    for(Decorador d: extras){
-                        if(d.getNombre().equals(aux.getNombre()))
-                            d.getCheckbox().setSelected(true);
-                    }
-                    if(aux.getBebida() instanceof Decorador)//si es un Decorador el ciclo continua
-                        aux = (Decorador) aux.getBebida();
-                    else//de lo contrario significa que hemos llegado a la bebida Base y detiene el ciclo
-                        flag = 0;
-                    
-                }
-                
-                //se le asigna la bebida Base
-                bebidaBaseAux = aux.getBebida();  
-            }
-        
-            //se asignan los valores correspondientes al resto de campos
-            txtCant.setText(bebidaSelect.getCantidad()+"");
-            btnBebida.setText(bebidaBaseAux.getNombre());
-            bebidaBase = bebidaBaseAux;
-            
-            //se ocultan y visibilisan los botones correspondientes
-            btnAnadir.setVisible(false);
-            btnRealizarModif.setVisible(true);
-            btnCancelarModif.setVisible(true);
-            
-        }
-        else{
-            Alert2.showAlert("Error","No order selected", Alert.AlertType.ERROR);
-            
-        }
-    }
-
-    @FXML
-    private void CancelarModif(ActionEvent event) {
-        //se oculta y visibilisa los botones correspondientes
-        this.btnCancelarModif.setVisible(false);
-        this.btnRealizarModif.setVisible(false);
-        this.btnAnadir.setVisible(true);
-        //se limpian las variables
-        this.limpiarVariables();
-    }
-
-    @FXML
-    private void CancelarPedido(ActionEvent event) {
-        //se limpia vectar que contiene las bebidas pedidas
-        bebidas.clear();
-        
-        //se refresaca la tabla para ver los cambios
-        tblBebidas.refresh();
-        
-        //tambien se le asigna null, ya que puede contener informacion 
-        //de alguna bebida y debido a que se cancelo el pedido esta puede 
-        //llegar a causar un comportamiento indebido de la aplicacion
-        bebidaSelect = null;
-        
-        //se limpian las opciones
-        this.limpiarVariables();
-        
-        //se oculta y visibilisa los botones correspondientes
-        btnCancelarModif.setVisible(false);
-        btnRealizarModif.setVisible(false);
-        btnAnadir.setVisible(true);
-    }
-
-    @FXML
-    private void realizarModif(ActionEvent event) {
-        try{
-            //se crea una bebida con las medificaciones 
-            BebidaCant bebida = this.creaBebida();
-        
-            //se modifican los atributos de la bebida seleccionada
-            bebidaSelect.setBebida(bebida.getBebida());
-            bebidaSelect.setCantidad(bebida.getCantidad());
-            
-            //se refresca la tabla para poder ver las modificaciones
-            this.tblBebidas.refresh();
-            
-            //se limpian las opciones para que esten lista para una nueva bebida
-            this.limpiarVariables();
-            
-            //se oculta y visibilisa los botones correspondientes
-            btnCancelarModif.setVisible(false);
-            btnRealizarModif.setVisible(false);
-            btnAnadir.setVisible(true);
-        }
-         catch(NumberFormatException e){//si se escribieron letras
-            Alert2.showAlert("Error","Incorrect format in quantity field", Alert.AlertType.ERROR);
-        }
-        catch(Exception e){//si el numero es menor o igual a 0, u otro error
-            Alert2.showAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
-        }
-        
-    }
     
     public void limpiarVariables(){
         //se reestablecen los valores de la parte donde se seleccionan 
@@ -362,37 +203,153 @@ public class BebidaPedidoController implements Initializable {
         
         return null;//si no pinia un return afuera de un if daba error
     }
+    
+    @FXML
+    private void seleccionar(MouseEvent event) {
+        bebidaSelect = this.tblBebidas.getSelectionModel().getSelectedItem();
+    }
 
     @FXML
-    private void verPedidos(ActionEvent event) {
+    private void anadir(ActionEvent event) throws Exception {
         try{
-            //Carga la View de donde se observan los pedidos
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Pedidos.fxml"));
-            Parent root = loader.load();
-            Scene scene = new Scene(root);
-            Stage stage = new Stage();
-            stage.initModality(Modality.WINDOW_MODAL);
-            stage.setScene(scene);
-            
-            //se alamcena el controller para cuando se realize una orden nueva 
-            //se le pueda pasar
-            Pedidos controller = loader.getController();
-            pedidosControllers.add(controller);
-            
-            //se le agragan todos los pedidos que se han hecho
-            for(Pedido p: pedidos){
-                controller.agragarPedido(p);
-            }
-            
-            //se abre la ventana
-            stage.show();
-            
+            BebidaCant bebida = this.creaBebida();
+            bebidas.add(new BebidaCant(bebida.getBebida(),bebida.getCantidad()));
+            System.out.print(bebida.getBebida().coste());
+            this.limpiarVariables();  
         }
-        catch(Exception e){
-                    
+        catch(NumberFormatException e){//si se escribieron letras en el campo de cantidad de bebidas
+            Alert2.showAlert("Error","Incorrect format in quantity field", Alert.AlertType.ERROR);
+        }
+        catch(Exception e){//si el numero es menor o igual a 0, u otro error
+            Alert2.showAlert("Error",e.getMessage(), Alert.AlertType.ERROR);
+        }
+    }
+    
+    @FXML
+    private void eliminar(ActionEvent event) {
+        if(bebidaSelect != null)
+            bebidas.remove(bebidaSelect);
+        else{
+            Alert2.showAlert("Error","No order selected", Alert.AlertType.ERROR);
         }
     }
 
+    @FXML
+    private void bebida1(ActionEvent event) {
+        bebidaBase = new BebidaEspecifica(this.btnb1.getText(),1.99);
+        this.btnBebida.setText(bebidaBase.getNombre());
+    }
+
+    @FXML
+    private void bebida2(ActionEvent event) {
+        bebidaBase = new BebidaEspecifica(this.btnb2.getText(),2.99);
+        this.btnBebida.setText(bebidaBase.getNombre());
+    }
+
+    @FXML
+    private void bebida3(ActionEvent event) {
+        bebidaBase = new BebidaEspecifica(this.btnb3.getText(),3.99);
+        this.btnBebida.setText(bebidaBase.getNombre());
+    }
+
+    @FXML
+    private void bebida4(ActionEvent event) {
+        bebidaBase = new BebidaEspecifica(this.btnb1.getText(),1.99);
+        this.btnBebida.setText(bebidaBase.getNombre());
+    }
+
+    
+    @FXML
+    private void modificar(ActionEvent event) {
+        if(bebidaSelect != null){//si selecciono una bebida de la tabla
+            
+            //se le da un valor ya que puede ser que no entre al if, lo que significario que no tiene extras
+            Bebida bebidaBaseAux = bebidaSelect.getBebida();
+            
+            //si la bebida seleccionada es un decorador(tiene extras)
+            if(bebidaSelect.getBebida() instanceof Decorador){
+                
+                //se realiza un castio para poder tener acceder a las funciones de Decorador
+                Decorador aux = (Decorador) bebidaSelect.getBebida();
+                
+                //ayudara a saber cuando la siguiente bebida del Decorador no es un Decorador y parar el ciclo
+                int flag = 1;
+                
+                //ciclo para seleccionar los extras de la bebida
+                while(flag==1){
+                    for(Decorador d: extras){
+                        if(d.getNombre().equals(aux.getNombre()))
+                            d.getCheckbox().setSelected(true);
+                    }
+                    if(aux.getBebida() instanceof Decorador)//si es un Decorador el ciclo continua
+                        aux = (Decorador) aux.getBebida();
+                    else//de lo contrario significa que hemos llegado a la bebida Base y detiene el ciclo
+                        flag = 0;
+                    
+                }
+                
+                //se le asigna la bebida Base
+                bebidaBaseAux = aux.getBebida();  
+            }
+        
+            //se asignan los valores correspondientes al resto de campos
+            txtCant.setText(bebidaSelect.getCantidad()+"");
+            btnBebida.setText(bebidaBaseAux.getNombre());
+            bebidaBase = bebidaBaseAux;
+            
+            //se ocultan y visibilisan los botones correspondientes
+            btnAnadir.setVisible(false);
+            btnRealizarModif.setVisible(true);
+            btnCancelarModif.setVisible(true);
+            
+        }
+        else{
+            Alert2.showAlert("Error","No order selected", Alert.AlertType.ERROR);
+            
+        }
+    }
+
+    @FXML
+    private void realizarModif(ActionEvent event) {
+        try{
+            //se crea una bebida con las medificaciones 
+            BebidaCant bebida = this.creaBebida();
+        
+            //se modifican los atributos de la bebida seleccionada
+            bebidaSelect.setBebida(bebida.getBebida());
+            bebidaSelect.setCantidad(bebida.getCantidad());
+            
+            //se refresca la tabla para poder ver las modificaciones
+            this.tblBebidas.refresh();
+            
+            //se limpian las opciones para que esten lista para una nueva bebida
+            this.limpiarVariables();
+            
+            //se oculta y visibilisa los botones correspondientes
+            btnCancelarModif.setVisible(false);
+            btnRealizarModif.setVisible(false);
+            btnAnadir.setVisible(true);
+        }
+         catch(NumberFormatException e){//si se escribieron letras
+            Alert2.showAlert("Error","Incorrect format in quantity field", Alert.AlertType.ERROR);
+        }
+        catch(Exception e){//si el numero es menor o igual a 0, u otro error
+            Alert2.showAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+        }
+        
+    }
+
+    @FXML
+    private void CancelarModif(ActionEvent event) {
+        //se oculta y visibilisa los botones correspondientes
+        this.btnCancelarModif.setVisible(false);
+        this.btnRealizarModif.setVisible(false);
+        this.btnAnadir.setVisible(true);
+        //se limpian las variables
+        this.limpiarVariables();
+    }
+
+    
     @FXML
     private void realizarPedido(ActionEvent event) {
         
@@ -424,6 +381,60 @@ public class BebidaPedidoController implements Initializable {
             Alert2.showAlert("Error", "No hay pedidos en la orden", Alert.AlertType.ERROR);
         }
     }
+    
+    @FXML
+    private void CancelarPedido(ActionEvent event) {
+        //se limpia vectar que contiene las bebidas pedidas
+        bebidas.clear();
+        
+        //se refresaca la tabla para ver los cambios
+        tblBebidas.refresh();
+        
+        //tambien se le asigna null, ya que puede contener informacion 
+        //de alguna bebida y debido a que se cancelo el pedido esta puede 
+        //llegar a causar un comportamiento indebido de la aplicacion
+        bebidaSelect = null;
+        
+        //se limpian las opciones
+        this.limpiarVariables();
+        
+        //se oculta y visibilisa los botones correspondientes
+        btnCancelarModif.setVisible(false);
+        btnRealizarModif.setVisible(false);
+        btnAnadir.setVisible(true);
+    }
+
+    @FXML
+    private void verPedidos(ActionEvent event) {
+        try{
+            //Carga la View de donde se observan los pedidos
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Pedidos.fxml"));
+            Parent root = loader.load();
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            stage.initModality(Modality.WINDOW_MODAL);
+            stage.setScene(scene);
+            
+            //se alamcena el controller para cuando se realize una orden nueva 
+            //se le pueda pasar
+            Pedidos controller = loader.getController();
+            pedidosControllers.add(controller);
+            
+            //se le agragan todos los pedidos que se han hecho
+            for(Pedido p: pedidos){
+                controller.agragarPedido(p);
+            }
+            
+            //se abre la ventana
+            stage.show();
+            
+        }
+        catch(Exception e){
+                    
+        }
+    }
+
+    
          
     
 }

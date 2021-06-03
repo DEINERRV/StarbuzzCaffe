@@ -29,14 +29,18 @@ import model.Pedido;
 
 public class Pedidos implements Initializable {
 
+    //Tabla Pedidos
     @FXML
     private TableView<Pedido> tblPedidos;
     @FXML
     private TableColumn<?, ?> colNombre;
     @FXML
     private TableColumn<?, ?> colEdad;
+    
     @FXML
     private TextField txtFiltroCodigo;
+    
+    //Filtro Estados
     @FXML
     private MenuButton filtroEstado;
     @FXML
@@ -47,6 +51,8 @@ public class Pedidos implements Initializable {
     private MenuItem filtroProceso;
     @FXML
     private MenuItem filtroTodos;
+    
+    //Botones Cambiar Estado
     @FXML
     private MenuButton cambiarEstado;
     @FXML
@@ -56,8 +62,10 @@ public class Pedidos implements Initializable {
     @FXML
     private MenuItem cambiarEstadoProceso;
     @FXML
+    
     private TextArea txtDesc;
     
+    //Objetos de apoya
     private ObservableList<Pedido> pedidos;
     private ObservableList<Pedido> filtroPedidos;
     
@@ -67,20 +75,9 @@ public class Pedidos implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        BebidaEspecifica b1 = new BebidaEspecifica("B1",1.99);
-        BebidaEspecifica b2 = new BebidaEspecifica("B2",2.99);
-        BebidaEspecifica b3 = new BebidaEspecifica("B3",3.99);
-        
-        Decorador d1 = new Decorador(b1,"d1",.5); 
-        
-        Pedido p = new Pedido("1");
-        p.agragar(d1, 2);
-        p.agragar(b2, 1);
-        p.agragar(b3, 3);
         
         pedidos = FXCollections.observableArrayList();
         filtroPedidos = FXCollections.observableArrayList();
-        pedidos.add(p);
         
         this.tblPedidos.setItems(pedidos);
         
