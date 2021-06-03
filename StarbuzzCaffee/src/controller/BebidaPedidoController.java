@@ -140,8 +140,8 @@ public class BebidaPedidoController implements Initializable {
         else{
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText(null);
-            alert.setTitle("error");
-            alert.setContentText("No se ha seleccionada ninguna orden(bebida)");
+            alert.setTitle("ERROR");
+            alert.setContentText("No order selected");
             alert.showAndWait();
         }
     }
@@ -181,14 +181,14 @@ public class BebidaPedidoController implements Initializable {
         catch(NumberFormatException e){//si se escribieron letras
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText(null);
-            alert.setTitle("Error");
-            alert.setContentText("Formato Incorrecto");
+            alert.setTitle("ERROR");
+            alert.setContentText("Incorrect Format");
             alert.showAndWait();
         }
         catch(Exception e){//si el numero es menor o igual a 0
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText(null);
-            alert.setTitle("Error");
+            alert.setTitle("ERROR");
             alert.setContentText(e.getMessage());
             alert.showAndWait();
         }
@@ -234,8 +234,8 @@ public class BebidaPedidoController implements Initializable {
         else{
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText(null);
-            alert.setTitle("error");
-            alert.setContentText("No se ha seleccionada ninguna orden(bebida)");
+            alert.setTitle("ERROR");
+            alert.setContentText("No order selected");
             alert.showAndWait();
         }
     }
@@ -274,14 +274,14 @@ public class BebidaPedidoController implements Initializable {
          catch(NumberFormatException e){//si se escribieron letras
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText(null);
-            alert.setTitle("Error");
-            alert.setContentText("Formato Incorrecto");
+            alert.setTitle("ERROR");
+            alert.setContentText("Incorrect Format");
             alert.showAndWait();
         }
         catch(Exception e){//si el numero es menor o igual a 0
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText(null);
-            alert.setTitle("Error");
+            alert.setTitle("ERROR");
             alert.setContentText(e.getMessage());
             alert.showAndWait();
         }
@@ -308,12 +308,12 @@ public class BebidaPedidoController implements Initializable {
             
         //si es menor a 0 se tira una excepcion ya que no se pueden pedir 0 o -11,por ejemplo, de una bebida
         if(cant <= 0){
-            Exception e = new Exception("La cantidad es menor o igua a 0");
+            Exception e = new Exception("The quantity is less than or equal to 0");
             throw e;
         }
        
         if(bebidaBase == null){
-            Exception e = new Exception("No se ha Seleccionado la Bebida Base");
+            Exception e = new Exception("Base Drink has not been selected");
             System.out.print(e.getMessage());
             throw e;
         }
