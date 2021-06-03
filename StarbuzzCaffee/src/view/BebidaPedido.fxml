@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.web.*?>
-<?import javafx.scene.text.*?>
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="500.0" prefWidth="736.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.BebidaPedidoController">
+<AnchorPane id="AnchorPane" prefHeight="500.0" prefWidth="736.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.BebidaPedidoController">
    <children>
-      <Label layoutX="25.0" layoutY="25.0" prefHeight="35.0" prefWidth="100.0" text="Bebida">
+      <Label layoutX="25.0" layoutY="25.0" prefHeight="35.0" prefWidth="100.0" text="Beverage">
          <font>
             <Font size="22.0" />
          </font>
@@ -22,38 +24,39 @@
       </Label>
       <TableView fx:id="tblBebidas" layoutX="348.0" layoutY="43.0" onMouseClicked="#seleccionar" prefHeight="302.0" prefWidth="374.0">
         <columns>
-          <TableColumn fx:id="colnom" prefWidth="207.0" text="Bebida" />
-          <TableColumn fx:id="colPrecio" minWidth="2.0" prefWidth="88.0" text="Precio c/d" />
-            <TableColumn fx:id="colCant" prefWidth="76.0" text="Cantidad" />
+          <TableColumn fx:id="colnom" prefWidth="207.0" text="Beverage" />
+          <TableColumn fx:id="colPrecio" minWidth="2.0" prefWidth="88.0" text="Price each" />
+            <TableColumn fx:id="colCant" prefWidth="76.0" text="Quantity" />
         </columns>
       </TableView>
-      <Button fx:id="btnModif" layoutX="348.0" layoutY="361.0" mnemonicParsing="false" onAction="#modificar" prefHeight="35.0" prefWidth="92.0" text="Modificar" />
-      <Button fx:id="btnElim" layoutX="630.0" layoutY="361.0" mnemonicParsing="false" onAction="#eliminar" prefHeight="35.0" prefWidth="92.0" text="Eliminar" />
-      <MenuButton fx:id="btnBebida" layoutX="25.0" layoutY="60.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="162.0" text="seleccione una bebida">
+      <Button fx:id="btnModif" layoutX="428.0" layoutY="411.0" mnemonicParsing="false" onAction="#modificar" prefHeight="35.0" prefWidth="92.0" text="Modify" />
+      <Button fx:id="btnElim" layoutX="557.0" layoutY="358.0" mnemonicParsing="false" onAction="#eliminar" prefHeight="35.0" prefWidth="92.0" text="Delete" />
+      <MenuButton fx:id="btnBebida" layoutX="25.0" layoutY="60.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="162.0" text="Select a beverage">
         <items>
-          <MenuItem fx:id="btnb1" mnemonicParsing="false" onAction="#bebida1" text="Bebida1" />
-          <MenuItem fx:id="btnb2" mnemonicParsing="false" onAction="#bebida2" text="Bebida2" />
-            <MenuItem fx:id="btnb3" mnemonicParsing="false" onAction="#bebida3" text="Bebida3" />
+          <MenuItem fx:id="btnb1" mnemonicParsing="false" onAction="#bebida1" text="House Blend" />
+          <MenuItem fx:id="btnb2" mnemonicParsing="false" onAction="#bebida2" text="Dark Roast" />
+            <MenuItem fx:id="btnb3" mnemonicParsing="false" onAction="#bebida3" text="Espresso" />
+            <MenuItem fx:id="btnb4" mnemonicParsing="false" onAction="#bebida4" text="Decaf" />
         </items>
       </MenuButton>
       <TableView fx:id="tblExtras" layoutX="25.0" layoutY="148.0" prefHeight="213.0" prefWidth="249.0">
         <columns>
           <TableColumn fx:id="colExtraNom" prefWidth="141.0" text="Extra" />
-          <TableColumn fx:id="colExtraPrecio" prefWidth="75.0" text="Precio" />
+          <TableColumn fx:id="colExtraPrecio" prefWidth="75.0" text="Price" />
             <TableColumn fx:id="colCheck" prefWidth="30.0" />
         </columns>
       </TableView>
-      <Button fx:id="btnAnadir" layoutX="25.0" layoutY="445.0" mnemonicParsing="false" onAction="#anadir" prefHeight="35.0" prefWidth="92.0" text="Annadir" />
-      <TextField fx:id="txtCant" layoutX="89.0" layoutY="389.0" prefHeight="25.0" prefWidth="57.0" />
-      <Label layoutX="25.0" layoutY="392.0" text="Cantidad :">
+      <Button fx:id="btnAnadir" layoutX="25.0" layoutY="441.0" mnemonicParsing="false" onAction="#anadir" prefHeight="35.0" prefWidth="92.0" text="Add" />
+      <TextField fx:id="txtCant" layoutX="106.0" layoutY="389.0" prefHeight="25.0" prefWidth="57.0" />
+      <Label layoutX="25.0" layoutY="392.0" prefHeight="19.0" prefWidth="65.0" text="Quantity:">
          <font>
             <Font size="13.0" />
          </font>
       </Label>
-      <Button fx:id="btnCancelarModif" layoutX="174.0" layoutY="445.0" mnemonicParsing="false" onAction="#CancelarModif" prefHeight="35.0" prefWidth="100.0" text="Cancelar Modif" />
-      <Button fx:id="btnCancelarPedido" layoutX="477.0" layoutY="361.0" mnemonicParsing="false" onAction="#CancelarPedido" prefHeight="35.0" prefWidth="116.0" text="Cancelar Pedido" />
-      <Button fx:id="btnRealizarModif" layoutX="25.0" layoutY="445.0" mnemonicParsing="false" onAction="#realizarModif" prefHeight="35.0" prefWidth="92.0" text="Modificar" />
-      <Button fx:id="btnVerPedidos" layoutX="590.0" layoutY="450.0" mnemonicParsing="false" onAction="#verPedidos" text="Ver todos los Pedidos" />
-      <Button fx:id="btnRealizarPedido" layoutX="310.0" layoutY="445.0" mnemonicParsing="false" onAction="#realizarPedido" prefHeight="35.0" prefWidth="116.0" text="Realizar Pedido" />
+      <Button fx:id="btnCancelarModif" layoutX="234.0" layoutY="441.0" mnemonicParsing="false" onAction="#CancelarModif" prefHeight="35.0" prefWidth="100.0" text="Cancel Modif" />
+      <Button fx:id="btnCancelarPedido" layoutX="557.0" layoutY="411.0" mnemonicParsing="false" onAction="#CancelarPedido" prefHeight="35.0" prefWidth="92.0" text="Cancel" />
+      <Button fx:id="btnRealizarModif" layoutX="125.0" layoutY="441.0" mnemonicParsing="false" onAction="#realizarModif" prefHeight="35.0" prefWidth="92.0" text="Modify" />
+      <Button fx:id="btnVerPedidos" layoutX="488.0" layoutY="464.0" mnemonicParsing="false" onAction="#verPedidos" text="View all orders" />
+      <Button fx:id="btnRealizarPedido" layoutX="428.0" layoutY="358.0" mnemonicParsing="false" onAction="#realizarPedido" prefHeight="35.0" prefWidth="92.0" text="Order" />
    </children>
 </AnchorPane>

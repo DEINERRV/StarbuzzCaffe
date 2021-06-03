@@ -61,6 +61,8 @@ public class BebidaPedidoController implements Initializable {
     @FXML
     private MenuItem btnb3;
     @FXML
+    private MenuItem btnb4;
+    @FXML
     private TableColumn<?, ?> colExtraNom;
     @FXML
     private TableColumn<?, ?> colExtraPrecio;
@@ -104,10 +106,10 @@ public class BebidaPedidoController implements Initializable {
         
         pedido = new Pedido("1");
         
-        Decorador d1 = new Decorador("d1",0.5);
-        Decorador d2 = new Decorador("d2",0.25);
-        Decorador d3 = new Decorador("d3",0.25);
-        Decorador d4 = new Decorador("d4",0.10);
+        Decorador d1 = new Decorador("Milk",0.12);
+        Decorador d2 = new Decorador("Mocha",0.22);
+        Decorador d3 = new Decorador("Soy",0.15);
+        Decorador d4 = new Decorador("Whip",0.12);
         
         extras = FXCollections.observableArrayList();
         extras.add(d1);
@@ -162,6 +164,12 @@ public class BebidaPedidoController implements Initializable {
         this.btnBebida.setText(bebidaBase.getNombre());
     }
 
+    @FXML
+    private void bebida4(ActionEvent event) {
+        bebidaBase = new BebidaEspecifica(this.btnb1.getText(),1.99);
+        this.btnBebida.setText(bebidaBase.getNombre());
+    }
+    
     @FXML
     private void anadir(ActionEvent event) throws Exception {
         try{
@@ -284,7 +292,7 @@ public class BebidaPedidoController implements Initializable {
         //se reestablecen los valores de la parte donde se seleccionan 
         //las caracteristicasde la bebida
         txtCant.clear();
-        btnBebida.setText("seleccione una bebida");
+        btnBebida.setText("Select a beverage");
         bebidaBase = null;
         for(Decorador d:extras){
             if(d.getCheckbox().isSelected()){

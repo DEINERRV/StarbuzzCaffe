@@ -1,40 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.text.*?>
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="452.0" prefWidth="649.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.Pedidos">
+<AnchorPane id="AnchorPane" prefHeight="508.0" prefWidth="692.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.Pedidos">
    <children>
-      <TableView fx:id="tblPedidos" layoutX="31.0" layoutY="59.0" onMouseClicked="#seleccionar" prefHeight="315.0" prefWidth="330.0">
+      <TableView fx:id="tblPedidos" layoutX="46.0" layoutY="108.0" onMouseClicked="#seleccionar" prefHeight="317.0" prefWidth="338.0">
         <columns>
-          <TableColumn fx:id="colNombre" prefWidth="165.0" text="Codigo" />
-            <TableColumn fx:id="colEdad" prefWidth="162.0" text="Estado" />
+          <TableColumn fx:id="colNombre" prefWidth="165.0" text="Code" />
+            <TableColumn fx:id="colEdad" prefWidth="162.0" text="Status" />
         </columns>
       </TableView>
-      <TextField fx:id="txtFiltroCodigo" layoutX="32.0" layoutY="24.0" onKeyReleased="#filtrarNombre" />
-      <Label layoutX="32.0" layoutY="6.0" text="Filtrar por Codigo" />
-      <MenuButton fx:id="filtroEstado" layoutX="211.0" layoutY="24.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="149.0" text="Todos">
+      <TextField fx:id="txtFiltroCodigo" layoutX="46.0" layoutY="59.0" onKeyReleased="#filtrarNombre" />
+      <Label layoutX="46.0" layoutY="36.0" text="Filter by Code" />
+      <MenuButton fx:id="filtroEstado" layoutX="227.0" layoutY="59.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="149.0" text="All">
         <items>
-          <MenuItem fx:id="filtroListo" mnemonicParsing="false" onAction="#filtrarListo" text="Listo" />
-          <MenuItem fx:id="filtroEspera" mnemonicParsing="false" onAction="#filtrarEspera" text="En Espera" />
-            <MenuItem fx:id="filtroProceso" mnemonicParsing="false" onAction="#filtrarProceso" text="En Proceso" />
-            <MenuItem fx:id="filtroTodos" mnemonicParsing="false" onAction="#filtrarTodo" text="Todos" />
+          <MenuItem fx:id="filtroListo" mnemonicParsing="false" onAction="#filtrarListo" text="Complete" />
+          <MenuItem fx:id="filtroEspera" mnemonicParsing="false" onAction="#filtrarEspera" text="Pending" />
+            <MenuItem fx:id="filtroProceso" mnemonicParsing="false" onAction="#filtrarProceso" text="In Proces" />
+            <MenuItem fx:id="filtroTodos" mnemonicParsing="false" onAction="#filtrarTodo" text="All" />
         </items>
       </MenuButton>
-      <MenuButton fx:id="cambiarEstado" layoutX="132.0" layoutY="387.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="129.0" text="Cambiar Estado:">
+      <MenuButton fx:id="cambiarEstado" layoutX="131.0" layoutY="441.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="129.0" text="Change Status">
         <items>
-          <MenuItem fx:id="cambiarEstadoListo" mnemonicParsing="false" onAction="#cambiarEstadoListo" text="Listo" />
-          <MenuItem fx:id="cambiarEstadoEspera" mnemonicParsing="false" onAction="#cambiarEstadoEspera" text="En Espera" />
-            <MenuItem fx:id="cambiarEstadoProceso" mnemonicParsing="false" onAction="#cambiarEstadoProceso" text="En Proceso" />
+          <MenuItem fx:id="cambiarEstadoListo" mnemonicParsing="false" onAction="#cambiarEstadoListo" text="Complete" />
+          <MenuItem fx:id="cambiarEstadoEspera" mnemonicParsing="false" onAction="#cambiarEstadoEspera" text="Pending" />
+            <MenuItem fx:id="cambiarEstadoProceso" mnemonicParsing="false" onAction="#cambiarEstadoProceso" text="In Process" />
         </items>
       </MenuButton>
-      <Label layoutX="211.0" layoutY="6.0" text="Filtrar por Estado" />
-      <TextArea fx:id="txtDesc" editable="false" layoutX="414.0" layoutY="59.0" prefHeight="364.0" prefWidth="221.0" />
-      <Label layoutX="472.0" layoutY="26.0" text="Info del Pedido ">
+      <Label layoutX="227.0" layoutY="36.0" text="Filter by Status" />
+      <TextArea fx:id="txtDesc" editable="false" layoutX="421.0" layoutY="61.0" prefHeight="364.0" prefWidth="221.0" />
+      <Label layoutX="495.0" layoutY="25.0" text="Order Info.">
          <font>
             <Font size="15.0" />
          </font>
