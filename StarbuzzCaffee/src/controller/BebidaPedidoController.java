@@ -406,7 +406,7 @@ public class BebidaPedidoController implements Initializable {
         }
         else{
             //alerta si la lista de pedidos esta vacia, por ende no se puede hacer la orden
-            Alert2.showAlert("Error", "No hay pedidos en la orden", Alert.AlertType.ERROR);
+            Alert2.showAlert("ERROR", "No beverage in the order", Alert.AlertType.ERROR);
         }
     }
     

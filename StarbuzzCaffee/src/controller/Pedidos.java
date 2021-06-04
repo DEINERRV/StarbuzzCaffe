@@ -123,7 +123,7 @@ public class Pedidos implements Initializable {
     @FXML
     private void filtrarEspera(ActionEvent event) {
         this.filtroPedidos.clear();
-        this.filtroPedidos = this.filtrarEstado("espera");
+        this.filtroPedidos = this.filtrarEstado("pending");
         this.tblPedidos.setItems(this.filtroPedidos);
         this.filtroEstado.setText("Espera");
     }
@@ -131,7 +131,7 @@ public class Pedidos implements Initializable {
     @FXML
     private void filtrarProceso(ActionEvent event) {
         this.filtroPedidos.clear();
-        this.filtroPedidos = this.filtrarEstado("proceso");
+        this.filtroPedidos = this.filtrarEstado("in process");
         this.tblPedidos.setItems(this.filtroPedidos);
         this.filtroEstado.setText("Proceso");
     }
@@ -154,17 +154,17 @@ public class Pedidos implements Initializable {
 
     @FXML
     private void cambiarEstadoListo(ActionEvent event) {
-        this.cambiarEstado("listo");
+        this.cambiarEstado("complete");
     }
 
     @FXML
     private void cambiarEstadoEspera(ActionEvent event) {
-        this.cambiarEstado("espera");
+        this.cambiarEstado("pending");
     }
 
     @FXML
     private void cambiarEstadoProceso(ActionEvent event) {
-        this.cambiarEstado("proceso");
+        this.cambiarEstado("in process");
     }
     
     private void cambiarEstado(String estado){
