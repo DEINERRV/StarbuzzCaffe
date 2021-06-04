@@ -106,7 +106,7 @@ public class BebidaPedidoController implements Initializable {
      
     //Objetos de apoyo
     private ObservableList<BebidaCant> bebidas;
-    private Pedido pedido;
+    private int numeroPedido;
     private BebidaCant bebidaSelect = null;
     private BebidaCant bebidaModif = null;
     private Beverage bebidaBase = null;
@@ -120,7 +120,7 @@ public class BebidaPedidoController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        pedido = new Pedido("1");
+        numeroPedido = 1;
         
         bebidas = FXCollections.observableArrayList();
         
@@ -392,7 +392,8 @@ public class BebidaPedidoController implements Initializable {
     private void realizarPedido(ActionEvent event) {
         
         if(!bebidas.isEmpty()){//si la orden tiene pedidos
-            
+            Pedido pedido = new Pedido(this.numeroPedido+"");
+            System.out.print(pedido.getCodigo());
             //se agragan los pedido
             for(BebidaCant b: bebidas){
                 pedido.agragar(b.getBebida(),b.getCantidad());
@@ -408,11 +409,10 @@ public class BebidaPedidoController implements Initializable {
             }
             
             //se limpian las variables
-            pedido = new Pedido("1");
             bebidas.clear();
             
-            //se genera un nueva codigo para el siguiente pedido
-            pedido.setCodigo(pedido.getCodigo()+1);
+            this.numeroPedido++;
+            
         }
         else{
             //alerta si la lista de pedidos esta vacia, por ende no se puede hacer la orden

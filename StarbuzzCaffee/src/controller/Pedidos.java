@@ -12,7 +12,6 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
@@ -24,7 +23,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
 import model.Pedido;
 
 
@@ -204,6 +202,9 @@ public class Pedidos implements Initializable {
         this.pedidos = pedidos;
         this.tblPedidos.setItems(pedidos);
         this.tblPedidos.refresh();
+        for(Pedido p:pedidos){
+            System.out.print(p.getCodigo());
+        }
     }
     
     public void refrescarTabla(){
