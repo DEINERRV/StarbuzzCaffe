@@ -121,25 +121,25 @@ public class Pedidos implements Initializable {
     @FXML
     private void filtrarListo(ActionEvent event) {
         this.filtroPedidos.clear();
-        this.filtroPedidos = this.filtrarEstado("listo");
+        this.filtroPedidos = this.filtrarEstado("Complete");
         this.tblPedidos.setItems(this.filtroPedidos);
-        this.filtroEstado.setText("Listo");
+        this.filtroEstado.setText("Complete");
     }
 
     @FXML
     private void filtrarEspera(ActionEvent event) {
         this.filtroPedidos.clear();
-        this.filtroPedidos = this.filtrarEstado("pending");
+        this.filtroPedidos = this.filtrarEstado("Pending");
         this.tblPedidos.setItems(this.filtroPedidos);
-        this.filtroEstado.setText("Espera");
+        this.filtroEstado.setText("Pending");
     }
 
     @FXML
     private void filtrarProceso(ActionEvent event) {
         this.filtroPedidos.clear();
-        this.filtroPedidos = this.filtrarEstado("in process");
+        this.filtroPedidos = this.filtrarEstado("In process");
         this.tblPedidos.setItems(this.filtroPedidos);
-        this.filtroEstado.setText("Proceso");
+        this.filtroEstado.setText("In process");
     }
 
     @FXML

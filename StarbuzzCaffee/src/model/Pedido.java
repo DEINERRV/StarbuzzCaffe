@@ -9,7 +9,7 @@ public class Pedido {
 
     public Pedido(String codigo) {
         this.codigo = codigo;
-        this.estado = "process";
+        this.estado = "In process";
     }
     
     public double calcPrecio(){
