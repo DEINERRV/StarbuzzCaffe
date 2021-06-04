@@ -12,6 +12,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
@@ -22,11 +23,16 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 import model.Pedido;
 
 
 public class Pedidos implements Initializable {
 
+    @FXML
+    private AnchorPane scenePane;
+    
     //Tabla Pedidos
     @FXML
     private TableView<Pedido> tblPedidos;
@@ -68,6 +74,7 @@ public class Pedidos implements Initializable {
     private ObservableList<Pedido> filtroPedidos;
     
     
+    
     /**
      * Initializes the controller class.
      */
@@ -81,6 +88,7 @@ public class Pedidos implements Initializable {
         
         this.colNombre.setCellValueFactory(new PropertyValueFactory("codigo"));
         this.colEdad.setCellValueFactory(new PropertyValueFactory("estado"));
+        
     }    
 
     @FXML
@@ -191,12 +199,23 @@ public class Pedidos implements Initializable {
         }
     }
     
-    public void agragarPedido(Pedido p){
-        this.pedidos.add(p);
-        
-        if( p.getEstado().toLowerCase().contains(this.filtroEstado.getText().toLowerCase())|| p.getCodigo().equals(this.txtFiltroCodigo.getText()) )
-            this.filtroPedidos.add(p);
+
+    public void setPedidos(ObservableList<Pedido> pedidos) {
+        this.pedidos = pedidos;
+        this.tblPedidos.setItems(pedidos);
+        this.tblPedidos.refresh();
+    }
+    
+    public void refrescarTabla(){
+        if(this.filtroEstado.getText().equals("Proceso")){
+            this.filtroPedidos = this.filtrarEstado("proceso");
+            this.tblPedidos.setItems(this.filtroPedidos);
+            for(Pedido p:this.filtroPedidos){
+                System.out.print(p.calcPrecio());
+            }
+        }
         
         this.tblPedidos.refresh();
     }
+    
 }

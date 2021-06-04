@@ -108,9 +108,10 @@ public class BebidaPedidoController implements Initializable {
     private ObservableList<BebidaCant> bebidas;
     private Pedido pedido;
     private BebidaCant bebidaSelect = null;
+    private BebidaCant bebidaModif = null;
     private Beverage bebidaBase = null;
     private Vector<Pedidos> pedidosControllers = new Vector();
-    private Vector<Pedido> pedidos = new Vector();
+    private ObservableList<Pedido> pedidos = FXCollections.observableArrayList();
    
     
     
@@ -242,15 +243,6 @@ public class BebidaPedidoController implements Initializable {
             Alert2.showAlert("Error",e.getMessage(), Alert.AlertType.ERROR);
         }
     }
-    
-    @FXML
-    private void eliminar(ActionEvent event) {
-        if(bebidaSelect != null)
-            bebidas.remove(bebidaSelect);
-        else{
-            Alert2.showAlert("Error","No order selected", Alert.AlertType.ERROR);
-        }
-    }
 
     @FXML
     private void bebida1(ActionEvent event) {
@@ -279,16 +271,18 @@ public class BebidaPedidoController implements Initializable {
     
     @FXML
     private void modificar(ActionEvent event) {
-        if(bebidaSelect != null){//si selecciono una bebida de la tabla
+        bebidaModif = bebidaSelect;
+        
+        if(bebidaModif != null){//si selecciono una bebida de la tabla
             
             //se le da un valor ya que puede ser que no entre al if, lo que significario que no tiene extras
-            Beverage bebidaBaseAux = bebidaSelect.getBebida();
+            Beverage bebidaBaseAux = bebidaModif.getBebida();
             
             //si la bebida seleccionada es un decorador(tiene extras)
-            if(bebidaSelect.getBebida() instanceof CondimentDecorator){
+            if(bebidaModif.getBebida() instanceof CondimentDecorator){
                 
                 //se realiza un castio para poder tener acceder a las funciones de Decorador
-                CondimentDecorator aux = (CondimentDecorator) bebidaSelect.getBebida();
+                CondimentDecorator aux = (CondimentDecorator) bebidaModif.getBebida();
                 
                 //ayudara a saber cuando la siguiente bebida del Decorador no es un Decorador y parar el ciclo
                 int flag = 1;
@@ -321,7 +315,7 @@ public class BebidaPedidoController implements Initializable {
             }
         
             //se asignan los valores correspondientes al resto de campos
-            txtCant.setText(bebidaSelect.getCantidad()+"");
+            txtCant.setText(bebidaModif.getCantidad()+"");
             btnBebida.setText(bebidaBaseAux.getDescription());
             bebidaBase = bebidaBaseAux;
             
@@ -344,8 +338,8 @@ public class BebidaPedidoController implements Initializable {
             BebidaCant bebida = this.creaBebida();
         
             //se modifican los atributos de la bebida seleccionada
-            bebidaSelect.setBebida(bebida.getBebida());
-            bebidaSelect.setCantidad(bebida.getCantidad());
+            bebidaModif.setBebida(bebida.getBebida());
+            bebidaModif.setCantidad(bebida.getCantidad());
             
             //se refresca la tabla para poder ver las modificaciones
             this.tblBebidas.refresh();
@@ -379,6 +373,22 @@ public class BebidaPedidoController implements Initializable {
 
     
     @FXML
+    private void eliminar(ActionEvent event) {
+        if(bebidaSelect != null){
+            if(bebidaSelect == bebidaModif){
+                bebidaModif = null;
+                this.CancelarModif(event);
+            }
+            bebidas.remove(bebidaSelect);
+            bebidaSelect = null;
+            
+        }else{
+            Alert2.showAlert("Error","No order selected", Alert.AlertType.ERROR);
+        }
+    }
+    
+    
+    @FXML
     private void realizarPedido(ActionEvent event) {
         
         if(!bebidas.isEmpty()){//si la orden tiene pedidos
@@ -388,15 +398,15 @@ public class BebidaPedidoController implements Initializable {
                 pedido.agragar(b.getBebida(),b.getCantidad());
             }
             
-            //se le comunica la orden a las ventanas donde se ven las ordenes que esten abiertas
-            for(Pedidos c: pedidosControllers){
-                c.agragarPedido(pedido);
-            }
-            
             //se almacenan todas las ordenes en un vector para que cuando se abra una ventana donde se ven las ordenes
             //para que puedan ver todos los pedidos que se han hecho
             pedidos.add(pedido);
         
+            //se le comunica la orden a las ventanas donde se ven las ordenes que esten abiertas
+            for(Pedidos c: pedidosControllers){
+               c.refrescarTabla();
+            }
+            
             //se limpian las variables
             pedido = new Pedido("1");
             bebidas.clear();
@@ -444,17 +454,20 @@ public class BebidaPedidoController implements Initializable {
             stage.setScene(scene);
             
             //se alamcena el controller para cuando se realize una orden nueva 
-            //se le pueda pasar
+            //se la tabla se actulize apenas se realize
             Pedidos controller = loader.getController();
-            pedidosControllers.add(controller);
+            this.pedidosControllers.add(controller);
             
-            //se le agragan todos los pedidos que se han hecho
-            for(Pedido p: pedidos){
-                controller.agragarPedido(p);
-            }
+            //se le asigna la lista de pedidos para que tenga todos los pedidos hechos 
+            controller.setPedidos(pedidos);
             
+          
             //se abre la ventana
             stage.show();
+            
+            //cuando la ventan donde se ven los pedidos se cierra, entonces
+            //se va a ejecutar esta accion, que elimina su contralador de la lista
+            stage.setOnCloseRequest(ActionEvents -> this.elimObs(controller));
             
         }
         catch(Exception e){
@@ -462,6 +475,11 @@ public class BebidaPedidoController implements Initializable {
         }
     }
 
+    public void elimObs(Pedidos p){
+        if(this.pedidosControllers.contains(p)){
+            this.pedidosControllers.remove(p);
+        }
+    }
     
          
     
