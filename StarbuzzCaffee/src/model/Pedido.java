@@ -9,7 +9,7 @@ public class Pedido {
 
     public Pedido(String codigo) {
         this.codigo = codigo;
-        this.estado = "proceso";
+        this.estado = "process";
     }
     
     public double calcPrecio(){
@@ -79,13 +79,13 @@ public class Pedido {
     public String toString(){
         String s;
         
-        s="Pedido\n\n";
+        s="Order\n\n";
         
         for(BebidaCant b : bebidas){
             s+=b.toString()+"\n---------------------\n";
         }
         
-        s+="Precio Final= "+precio;
+        s+="Final price= "+precio;
         
         return s;
     }

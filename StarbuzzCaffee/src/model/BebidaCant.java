@@ -29,8 +29,8 @@ public class BebidaCant {
     public String toString(){
         String s;
         s=bebida.getDescription();
-        s+="\ncantidad= "+cantidad;
-        s+="\nprecio= "+bebida.cost()*cantidad;
+        s+="\nquantity= "+cantidad;
+        s+="\nprice= "+bebida.cost()*cantidad;
         
         return s;
     }
