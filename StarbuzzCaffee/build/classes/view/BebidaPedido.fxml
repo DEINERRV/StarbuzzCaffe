@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.MenuButton?>
@@ -10,7 +14,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="500.0" prefWidth="736.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.BebidaPedidoController">
+<AnchorPane id="AnchorPane" prefHeight="500.0" prefWidth="736.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.BebidaPedidoController">
    <children>
       <Label layoutX="25.0" layoutY="25.0" prefHeight="35.0" prefWidth="100.0" text="Beverage">
          <font>
@@ -39,13 +43,6 @@
             <MenuItem fx:id="btnb4" mnemonicParsing="false" onAction="#bebida4" text="Decaf" />
         </items>
       </MenuButton>
-      <TableView fx:id="tblExtras" layoutX="25.0" layoutY="148.0" prefHeight="213.0" prefWidth="249.0">
-        <columns>
-          <TableColumn fx:id="colExtraNom" prefWidth="141.0" text="Extra" />
-          <TableColumn fx:id="colExtraPrecio" prefWidth="75.0" text="Price" />
-            <TableColumn fx:id="colCheck" prefWidth="30.0" />
-        </columns>
-      </TableView>
       <Button fx:id="btnAnadir" layoutX="25.0" layoutY="441.0" mnemonicParsing="false" onAction="#anadir" prefHeight="35.0" prefWidth="92.0" text="Add" />
       <TextField fx:id="txtCant" layoutX="106.0" layoutY="389.0" prefHeight="25.0" prefWidth="57.0" />
       <Label layoutX="25.0" layoutY="392.0" prefHeight="19.0" prefWidth="65.0" text="Quantity:">
@@ -58,5 +55,9 @@
       <Button fx:id="btnRealizarModif" layoutX="125.0" layoutY="441.0" mnemonicParsing="false" onAction="#realizarModif" prefHeight="35.0" prefWidth="92.0" text="Modify" />
       <Button fx:id="btnVerPedidos" layoutX="488.0" layoutY="464.0" mnemonicParsing="false" onAction="#verPedidos" text="View all orders" />
       <Button fx:id="btnRealizarPedido" layoutX="428.0" layoutY="358.0" mnemonicParsing="false" onAction="#realizarPedido" prefHeight="35.0" prefWidth="92.0" text="Order" />
+      <CheckBox fx:id="checkMilk" layoutX="25.0" layoutY="222.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="58.0" text="Milk" />
+      <CheckBox fx:id="checkMocha" layoutX="25.0" layoutY="162.0" mnemonicParsing="false" text="Mocha" />
+      <CheckBox fx:id="checkSoy" layoutX="25.0" layoutY="194.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="58.0" text="Soy" />
+      <CheckBox fx:id="checkWhip" layoutX="25.0" layoutY="256.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="58.0" text="Whip" />
    </children>
 </AnchorPane>

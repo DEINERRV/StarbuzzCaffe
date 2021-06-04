@@ -22,8 +22,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import model.BebidaEspecifica;
-import model.Decorador;
 import model.Pedido;
 
 

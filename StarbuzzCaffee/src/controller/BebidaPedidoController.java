@@ -21,6 +21,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
@@ -31,11 +32,18 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.Alert2;
-import model.Bebida;
 import model.BebidaCant;
-import model.BebidaEspecifica;
-import model.Decorador;
+import model.Beverage;
+import model.CondimentDecorator;
+import model.DarkRoast;
+import model.Decaf;
+import model.Espresso;
+import model.HouseBlend;
+import model.Milk;
+import model.Mocha;
 import model.Pedido;
+import model.Soy;
+import model.Whip;
 
 /**
  * FXML Controller class
@@ -54,16 +62,6 @@ public class BebidaPedidoController implements Initializable {
     @FXML
     private TableColumn<?, ?> colCant;
     
-    //Tablas Extras
-    @FXML
-    private TableView<Decorador> tblExtras;
-    @FXML
-    private TableColumn<?, ?> colExtraNom;
-    @FXML
-    private TableColumn<?, ?> colExtraPrecio;
-    @FXML
-    private TableColumn<?, ?> colCheck;
-    
     //Seleccion Bebida Base
     @FXML
     private MenuButton btnBebida;
@@ -76,6 +74,15 @@ public class BebidaPedidoController implements Initializable {
     @FXML
     private MenuItem btnb4;
     
+    //Extras
+    @FXML
+    private CheckBox checkMilk;
+    @FXML
+    private CheckBox checkMocha;
+    @FXML
+    private CheckBox checkSoy;
+    @FXML
+    private CheckBox checkWhip;
     @FXML
     private TextField txtCant;
     
@@ -98,13 +105,13 @@ public class BebidaPedidoController implements Initializable {
     private Button btnRealizarPedido;
      
     //Objetos de apoyo
-    private ObservableList<Decorador> extras;
     private ObservableList<BebidaCant> bebidas;
     private Pedido pedido;
     private BebidaCant bebidaSelect = null;
-    private Bebida bebidaBase = null;
+    private Beverage bebidaBase = null;
     private Vector<Pedidos> pedidosControllers = new Vector();
     private Vector<Pedido> pedidos = new Vector();
+   
     
     
     /**
@@ -114,30 +121,13 @@ public class BebidaPedidoController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         pedido = new Pedido("1");
         
-        Decorador d1 = new Decorador("Milk",0.12);
-        Decorador d2 = new Decorador("Mocha",0.22);
-        Decorador d3 = new Decorador("Soy",0.15);
-        Decorador d4 = new Decorador("Whip",0.12);
-        
-        extras = FXCollections.observableArrayList();
-        extras.add(d1);
-        extras.add(d2);
-        extras.add(d3);
-        extras.add(d4);
-        
         bebidas = FXCollections.observableArrayList();
         
-        
         this.tblBebidas.setItems(bebidas);
-        this.colnom.setCellValueFactory(cellData ->  new SimpleStringProperty(cellData.getValue().getBebida().getDescripcion()));    
-        this.colPrecio.setCellValueFactory(cellData ->  new SimpleStringProperty(cellData.getValue().getBebida().coste()+""));
+        this.colnom.setCellValueFactory(cellData ->  new SimpleStringProperty(cellData.getValue().getBebida().getDescription()));    
+        this.colPrecio.setCellValueFactory(cellData ->  new SimpleStringProperty(cellData.getValue().getBebida().cost()+""));
         this.colCant.setCellValueFactory(new PropertyValueFactory("cantidad"));
-        
-        this.tblExtras.setItems(extras);
-        this.colExtraNom.setCellValueFactory(new PropertyValueFactory("nombre"));
-        this.colExtraPrecio.setCellValueFactory(new PropertyValueFactory("precio"));
-        this.colCheck.setCellValueFactory(new PropertyValueFactory("checkbox"));
-        
+       
         this.btnCancelarModif.setVisible(false);
         this.btnRealizarModif.setVisible(false);
     }    
@@ -149,11 +139,11 @@ public class BebidaPedidoController implements Initializable {
         txtCant.clear();
         btnBebida.setText("Select a beverage");
         bebidaBase = null;
-        for(Decorador d:extras){
-            if(d.getCheckbox().isSelected()){
-                d.getCheckbox().setSelected(false);
-            }
-        }
+        
+        checkMilk.setSelected(false);
+        checkMocha.setSelected(false);
+        checkSoy.setSelected(false);
+        checkWhip.setSelected(false);
     }
     
     public BebidaCant creaBebida() throws Exception{
@@ -177,23 +167,51 @@ public class BebidaPedidoController implements Initializable {
         
         int flagfirst = 0;//ayudara a identificar la primer iteracion del ciclo for
         
-        Decorador aux = null;
-        Decorador nueva = null;
         
+        CondimentDecorator nueva = null;
         
-        for(Decorador d : extras){
-            if(d.getCheckbox().isSelected()){//las que estan seleccionadas mediante el checkbox
-                flagfirst++;
-                if(flagfirst != 1){
-                    nueva = new Decorador(aux,d.getNombre(),d.getPrecio());
-                    aux = nueva;
-                }
-                else{//el primer extra seleccionado va a contener la bebida base 
-                    nueva = new Decorador(bebidaBase,d.getNombre(),d.getPrecio());
-                    aux = nueva;
-                }
+        if(checkMocha.isSelected()){
+            if(flagfirst == 0){
+                nueva = new Mocha(bebidaBase);
+                flagfirst = 1;
+            }
+            else{
+                nueva = new Mocha(nueva);
             }
         }
+        
+        if(checkSoy.isSelected()){
+            if(flagfirst == 0){
+                nueva = new Soy(bebidaBase);
+                flagfirst = 1;
+            }
+            else{
+                nueva = new Soy(nueva);
+            }
+        }
+        
+        if(checkMilk.isSelected()){
+            if(flagfirst == 0){
+                nueva = new Milk(bebidaBase);
+                flagfirst = 1;
+            }
+            else{
+                nueva = new Milk(nueva);
+            }
+        }
+        
+            
+        
+        if(checkWhip.isSelected()){
+            if(flagfirst == 0){
+                nueva = new Whip(bebidaBase);
+                flagfirst = 1;
+            }
+            else{
+                nueva = new Whip(nueva);
+            }
+        }
+                
         
         //Se crean y annaden la bebida al pedido
         if(nueva != null)//si no se selecciono ningun extra nuevo es null
@@ -214,7 +232,7 @@ public class BebidaPedidoController implements Initializable {
         try{
             BebidaCant bebida = this.creaBebida();
             bebidas.add(new BebidaCant(bebida.getBebida(),bebida.getCantidad()));
-            System.out.print(bebida.getBebida().coste());
+            
             this.limpiarVariables();  
         }
         catch(NumberFormatException e){//si se escribieron letras en el campo de cantidad de bebidas
@@ -236,26 +254,26 @@ public class BebidaPedidoController implements Initializable {
 
     @FXML
     private void bebida1(ActionEvent event) {
-        bebidaBase = new BebidaEspecifica(this.btnb1.getText(),1.99);
-        this.btnBebida.setText(bebidaBase.getNombre());
+        bebidaBase = new HouseBlend();
+        this.btnBebida.setText(bebidaBase.getDescription());
     }
 
     @FXML
     private void bebida2(ActionEvent event) {
-        bebidaBase = new BebidaEspecifica(this.btnb2.getText(),2.99);
-        this.btnBebida.setText(bebidaBase.getNombre());
+        bebidaBase = new DarkRoast();
+        this.btnBebida.setText(bebidaBase.getDescription());
     }
 
     @FXML
     private void bebida3(ActionEvent event) {
-        bebidaBase = new BebidaEspecifica(this.btnb3.getText(),3.99);
-        this.btnBebida.setText(bebidaBase.getNombre());
+        bebidaBase = new Espresso();
+        this.btnBebida.setText(bebidaBase.getDescription());
     }
 
     @FXML
     private void bebida4(ActionEvent event) {
-        bebidaBase = new BebidaEspecifica(this.btnb1.getText(),1.99);
-        this.btnBebida.setText(bebidaBase.getNombre());
+        bebidaBase = new Decaf();
+        this.btnBebida.setText(bebidaBase.getDescription());
     }
 
     
@@ -264,37 +282,47 @@ public class BebidaPedidoController implements Initializable {
         if(bebidaSelect != null){//si selecciono una bebida de la tabla
             
             //se le da un valor ya que puede ser que no entre al if, lo que significario que no tiene extras
-            Bebida bebidaBaseAux = bebidaSelect.getBebida();
+            Beverage bebidaBaseAux = bebidaSelect.getBebida();
             
             //si la bebida seleccionada es un decorador(tiene extras)
-            if(bebidaSelect.getBebida() instanceof Decorador){
+            if(bebidaSelect.getBebida() instanceof CondimentDecorator){
                 
                 //se realiza un castio para poder tener acceder a las funciones de Decorador
-                Decorador aux = (Decorador) bebidaSelect.getBebida();
+                CondimentDecorator aux = (CondimentDecorator) bebidaSelect.getBebida();
                 
                 //ayudara a saber cuando la siguiente bebida del Decorador no es un Decorador y parar el ciclo
                 int flag = 1;
                 
                 //ciclo para seleccionar los extras de la bebida
                 while(flag==1){
-                    for(Decorador d: extras){
-                        if(d.getNombre().equals(aux.getNombre()))
-                            d.getCheckbox().setSelected(true);
+                    if(aux instanceof Whip){
+                        checkWhip.setSelected(true);
+                        aux = (Whip)aux;
+                    }else if(aux instanceof Soy){
+                        checkSoy.setSelected(true);
+                        aux = (Soy)aux;
+                    }else if(aux instanceof Mocha){
+                        checkMocha.setSelected(true);
+                        aux = (Mocha)aux;
+                    }else if(aux instanceof Milk){
+                        checkMilk.setSelected(true);
+                        aux = (Milk)aux;
                     }
-                    if(aux.getBebida() instanceof Decorador)//si es un Decorador el ciclo continua
-                        aux = (Decorador) aux.getBebida();
+                    
+                    if(aux.getBeverage() instanceof CondimentDecorator)//si es un Decorador el ciclo continua
+                        aux = (CondimentDecorator) aux.getBeverage();
                     else//de lo contrario significa que hemos llegado a la bebida Base y detiene el ciclo
                         flag = 0;
                     
                 }
                 
                 //se le asigna la bebida Base
-                bebidaBaseAux = aux.getBebida();  
+                bebidaBaseAux = aux.getBeverage();  
             }
         
             //se asignan los valores correspondientes al resto de campos
             txtCant.setText(bebidaSelect.getCantidad()+"");
-            btnBebida.setText(bebidaBaseAux.getNombre());
+            btnBebida.setText(bebidaBaseAux.getDescription());
             bebidaBase = bebidaBaseAux;
             
             //se ocultan y visibilisan los botones correspondientes
@@ -370,7 +398,7 @@ public class BebidaPedidoController implements Initializable {
             pedidos.add(pedido);
         
             //se limpian las variables
-            pedido.getBebidas().clear();
+            pedido = new Pedido("1");
             bebidas.clear();
             
             //se genera un nueva codigo para el siguiente pedido

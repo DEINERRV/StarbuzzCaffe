@@ -2,19 +2,19 @@ package model;
 
 
 public class BebidaCant {
-    private Bebida bebida;
+    private Beverage bebida;
     private int cantidad;
 
-    public BebidaCant(Bebida bebida, int cantidad) {
+    public BebidaCant(Beverage bebida, int cantidad) {
         this.bebida = bebida;
         this.cantidad = cantidad;
     }
 
-    public Bebida getBebida() {
+    public Beverage getBebida() {
         return bebida;
     }
 
-    public void setBebida(Bebida bebida) {
+    public void setBebida(Beverage bebida) {
         this.bebida = bebida;
     }
 
@@ -28,9 +28,9 @@ public class BebidaCant {
     
     public String toString(){
         String s;
-        s=bebida.getDescripcion();
+        s=bebida.getDescription();
         s+="\ncantidad= "+cantidad;
-        s+="\nprecio= "+bebida.coste()*cantidad;
+        s+="\nprecio= "+bebida.cost()*cantidad;
         
         return s;
     }

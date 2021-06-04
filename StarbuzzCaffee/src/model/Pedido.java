@@ -16,13 +16,13 @@ public class Pedido {
         double p = 0;
         
         for(BebidaCant b : bebidas){
-            p+= b.getBebida().coste()*b.getCantidad();
+            p+= b.getBebida().cost()*b.getCantidad();
         }
         
         return p;
     }
     
-    public void agragar(Bebida bebida,int cant){
+    public void agragar(Beverage bebida,int cant){
         bebidas.add(new BebidaCant(bebida,cant));
         this.precio = this.calcPrecio();
         this.descripcion = this.toString();
