@@ -481,6 +481,35 @@ public class BebidaPedidoController implements Initializable {
         }
     }
     
-         
+    private void HandlecheckMilk(){
+        if(checkMilk.isSelected()){
+            checkMocha.setSelected(false);
+            checkSoy.setSelected(false);
+            checkWhip.setSelected(false);
+        }
+    }   
     
+    private void HandlecheckMocha(){
+        if(checkMocha.isSelected()){
+            checkMilk.setSelected(false);
+            checkSoy.setSelected(false);
+            checkWhip.setSelected(false);
+        }
+    }
+    
+    private void HandlecheckSoy(){
+        if(checkSoy.isSelected()){
+            checkMocha.setSelected(false);
+            checkMilk.setSelected(false);
+            checkWhip.setSelected(false);
+        }
+    }
+    
+     private void HandlecheckWhip(){
+        if(checkWhip.isSelected()){
+            checkMocha.setSelected(false);
+            checkMilk.setSelected(false);
+            checkSoy.setSelected(false);
+        }
+    }
 }
